@@ -1,0 +1,27 @@
+{
+  "name": "react-mounter",
+  "version": "0.0.1",
+  "description": "A mini renderer for React, this renderer only trigger componentWillMount() in Server Side Rendering",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carney520/react-mounter.git"
+  },
+  "keywords": [
+    "react",
+    "renderer"
+  ],
+  "author": "ivan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/carney520/react-mounter/issues"
+  },
+  "homepage": "https://github.com/carney520/react-mounter#readme",
+  "peerDependencies": {
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
+  }
+}
