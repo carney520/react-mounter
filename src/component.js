@@ -1,6 +1,6 @@
 const ReactMultiChild = require('react-dom/lib/ReactMultiChild')
+const { noop } = require('./utils')
 
-const Noop = () => {}
 function ReactMounterComponent (element) {
   this._currentElement = element
   this._renderedChildren = null
@@ -11,13 +11,12 @@ Object.assign(
   {
     mountComponent (transaction, nativeParent, hostContainerInfo, context) {
       const element = this._currentElement
-      console.log(this)
       this.mountChildren(element.props.children, transaction, context)
     },
     // eliminate React warnings
-    receiveComponent: Noop,
-    getHostNode: Noop,
-    unmountComponent: Noop,
+    receiveComponent: noop,
+    getHostNode: noop,
+    unmountComponent: noop,
   },
   ReactMultiChild.Mixin
 )

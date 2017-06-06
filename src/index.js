@@ -1,5 +1,6 @@
 const instantiateReactComponent = require('react-dom/lib/instantiateReactComponent')
-const ReactUpdates = require('react-dom/lib/ReactUpdates')
+const ReactDefaultBatchingStrategy = require('react-dom/lib/ReactDefaultBatchingStrategy')
+const ReactMounterRecocilerTransaction = require('./reconcileTransaction')
 const inject = require('./injection')
 
 inject()
@@ -8,33 +9,28 @@ function mountComponentIntoNode (
   componentInstance,
   transaction,
   hostParent,
-  hostContainerInfo,
+  hostContainerInfo
 ) {
   const image = componentInstance.mountComponent(
     transaction,
     null,
     hostContainerInfo,
-    {},
+    {}
   )
   return image
 }
 
 function render (nextElement) {
-  const instance = instantiateReactComponent(nextElement, false)
-  ReactUpdates.batchedUpdates(() => {
-    const transaction = ReactUpdates.ReactReconcileTransaction.getPooled()
-    console.log(transaction)
-    const image = transaction.perform(() => {
-      mountComponentIntoNode(
-        instance,
-        transaction,
-        null,
-        null
-      )
+  let transaction
+  try {
+    transaction = ReactMounterRecocilerTransaction.getPooled()
+    return transaction.perform(() => {
+      const instance = instantiateReactComponent(nextElement, false)
+      return mountComponentIntoNode(instance, transaction, null, {})
     })
-    console.log(image)
-  })
-  return instance
+  } finally {
+    ReactMounterRecocilerTransaction.release(transaction)
+  }
 }
 
 module.exports = {

@@ -1,21 +1,16 @@
-const CallbackQueue = require('react-dom/lib/CallbackQueue')
 const PooledClass = require('react-dom/lib/PooledClass')
 const Transaction = require('react-dom/lib/Transaction')
+const ReactUpdateQueue = require('react-dom/lib/ReactUpdateQueue')
+const { noop } = require('./utils')
 
-const ON_DOM_READY_QUEUEING = {
-  initialize () {
-    this.reactMountReady.reset()
-  },
-  close () {
-    this.reactMountReady.notifyAll()
-  }
+const noopCallbackQueue = {
+  enqueue: noop
 }
 
-const TRANSACTION_WRAPPER = [ON_DOM_READY_QUEUEING]
+const TRANSACTION_WRAPPER = []
 
 function ReactMounterRecocilerTransaction () {
   this.reinitializeTransaction()
-  this.reactMountReady = CallbackQueue.getPooled(this)
 }
 
 const Mixin = {
@@ -23,12 +18,14 @@ const Mixin = {
     return TRANSACTION_WRAPPER
   },
   getReactMountReady () {
-    return this.reactMountReady
+    return noopCallbackQueue
   },
-  destructor () {
-    CallbackQueue.release(this.reactMountReady)
-    this.reactMountReady = null
-  }
+  getUpdateQueue () {
+    return ReactUpdateQueue
+  },
+  destructor: noop,
+  checkpoint: noop,
+  rollback: noop,
 }
 
 Object.assign(

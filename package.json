@@ -4,7 +4,7 @@
   "description": "A mini renderer for React, this renderer only trigger componentWillMount() in Server Side Rendering",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -20,8 +20,20 @@
     "url": "https://github.com/carney520/react-mounter/issues"
   },
   "homepage": "https://github.com/carney520/react-mounter#readme",
-  "peerDependencies": {
-    "react": "^15.5.4",
+  "jest": {
+    "transform": {}
+  },
+  "dependencies": {
     "react-dom": "^15.5.4"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.24.1",
+    "babel-jest": "^20.0.3",
+    "babel-preset-env": "^1.5.1",
+    "babel-preset-react": "^6.24.1",
+    "jest": "^20.0.4",
+    "react": "^15.5.4",
+    "regenerator-runtime": "^0.10.5"
   }
 }
