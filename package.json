@@ -1,6 +1,6 @@
 {
-  "name": "react-mounter",
-  "version": "0.0.1",
+  "name": "lg-react-mounter",
+  "version": "0.2.0",
   "description": "A mini renderer for React, this renderer only trigger componentWillMount() in Server Side Rendering",
   "main": "src/index.js",
   "scripts": {
