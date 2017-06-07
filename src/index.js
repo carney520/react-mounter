@@ -1,7 +1,7 @@
+const inject = require('./injection')
 const instantiateReactComponent = require('react-dom/lib/instantiateReactComponent')
 const ReactDefaultBatchingStrategy = require('react-dom/lib/ReactDefaultBatchingStrategy')
 const ReactMounterRecocilerTransaction = require('./reconcileTransaction')
-const inject = require('./injection')
 
 inject()
 

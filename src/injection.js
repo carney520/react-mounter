@@ -1,3 +1,4 @@
+require('./patch')
 const ReactUpdates = require('react-dom/lib/ReactUpdates')
 const ReactHostComponent = require('react-dom/lib/ReactHostComponent')
 const ReactEmptyComponent = require('react-dom/lib/ReactEmptyComponent')
@@ -22,7 +23,6 @@ EmptyComponent.prototype.receiveComponent =
 EmptyComponent.prototype.mountComponent =
 EmptyComponent.prototype.getHostNode =
 EmptyComponent.prototype.unmountComponent = noop
-
 
 let injected = false
 module.exports = function inject () {

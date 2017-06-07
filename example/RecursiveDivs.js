@@ -5,15 +5,19 @@ export default class RecursiveDirs extends React.Component {
   componentWillMount () {
     foo()
   }
+  shouldSkipMountChildren () {
+    const { skipDepth, depth } = this.props
+    return depth <= skipDepth
+  }
   render () {
-    const { depth, breadth, textLength } = this.props
+    const { depth, breadth, textLength, skipDepth } = this.props
     if (depth <= 0) {
       return <div>hello world</div>
     }
 
     let children = []
     for (let i = 0; i < breadth; i++) {
-      children.push(<RecursiveDirs key={i} depth={depth - 1} breadth={breadth} textLength={textLength} />)
+      children.push(<RecursiveDirs key={i} depth={depth - 1} breadth={breadth} textLength={textLength} skipDepth={skipDepth}/>)
     }
     return <div>{children}</div>
   }
