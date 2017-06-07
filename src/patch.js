@@ -7,14 +7,17 @@ ReactCompositeComponent._performInitialMount = ReactCompositeComponent.performIn
 function performInitialMount (fallback) {
   return function () {
     const instance = this._instance
-    let shouldSkipMountChildren = false
-    if (instance.shouldSkipMountChildren) {
-      shouldSkipMountChildren = typeof instance.shouldSkipMountChildren === 'function'
-        ? instance.shouldSkipMountChildren()
-        : instance.shouldSkipMountChildren
+    let shouldOmitChildren = false
+    if (instance.shouldOmitChildren) {
+      shouldOmitChildren = typeof instance.shouldOmitChildren === 'function'
+        ? instance.shouldOmitChildren()
+        : instance.shouldOmitChildren
     }
 
-    if (shouldSkipMountChildren) {
+    if (shouldOmitChildren) {
+      if (instance.componentWillMount) {
+        instance.componentWillMount()
+      }
       return
     } else {
       return fallback.apply(this, arguments)

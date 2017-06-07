@@ -5,7 +5,7 @@ export default class RecursiveDirs extends React.Component {
   componentWillMount () {
     foo()
   }
-  shouldSkipMountChildren () {
+  shouldOmitChildren () {
     const { skipDepth, depth } = this.props
     return depth <= skipDepth
   }

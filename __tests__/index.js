@@ -1,15 +1,21 @@
 import React from 'react'
 import ReactMounter from '../src/index'
 
-describe('test shouldSkipMountChildren', () => {
+describe('test shouldOmitChildren', () => {
   const mockFn = jest.fn()
+  const mockFn4WillMount = jest.fn()
+
   afterEach(() => {
     mockFn.mockClear()
+    mockFn4WillMount.mockClear()
   })
 
-  test('shouldSkipMountChildren as attribute', () => {
+  test('shouldOmitChildren as attribute', () => {
     class Foo extends React.Component {
-      shouldSkipMountChildren = true
+      componentWillMount () {
+        mockFn4WillMount()
+      }
+      shouldOmitChildren = true
       render () {
         mockFn()
         return null
@@ -17,9 +23,10 @@ describe('test shouldSkipMountChildren', () => {
     }
     ReactMounter.render(<Foo />)
     expect(mockFn).not.toHaveBeenCalled()
+    expect(mockFn4WillMount).toHaveBeenCalled()
 
     class Bar extends React.Component {
-      shouldSkipMountChildren = false
+      shouldOmitChildren = false
       render () {
         mockFn()
         return null
@@ -29,9 +36,9 @@ describe('test shouldSkipMountChildren', () => {
     expect(mockFn).toHaveBeenCalled()
   })
 
-  test('shouldSkipMountChildren as method', () => {
+  test('shouldOmitChildren as method', () => {
     class Foo extends React.PureComponent {
-      shouldSkipMountChildren () {
+      shouldOmitChildren () {
         return true
       }
       render () {
@@ -44,7 +51,7 @@ describe('test shouldSkipMountChildren', () => {
     expect(mockFn).not.toHaveBeenCalled()
 
     class Bar extends React.PureComponent {
-      shouldSkipMountChildren () {
+      shouldOmitChildren () {
         return false
       }
       render () {
@@ -62,7 +69,7 @@ describe('test shouldSkipMountChildren', () => {
     const mockFn4Bazz = jest.fn()
 
     class Baz extends React.Component {
-      shouldSkipMountChildren = false
+      shouldOmitChildren = false
       render () {
         mockFn4Baz()
         return <div>hello baz</div>
@@ -70,14 +77,17 @@ describe('test shouldSkipMountChildren', () => {
     }
 
     class Bazz extends React.Component {
-      shouldSkipMountChildren = true
+      componentWillMount () {
+        mockFn4WillMount()
+      }
+      shouldOmitChildren = true
       render () {
         mockFn4Bazz()
       }
     }
 
     class Foo extends React.Component {
-      shouldSkipMountChildren = true
+      shouldOmitChildren = true
       render () {
         mockFn()
         return <Baz />
@@ -86,10 +96,11 @@ describe('test shouldSkipMountChildren', () => {
 
     ReactMounter.render(<Foo />)
     expect(mockFn).not.toHaveBeenCalled()
+    expect(mockFn4WillMount).not.toHaveBeenCalled()
     expect(mockFn4Baz).not.toHaveBeenCalled()
 
     class Bar extends React.Component {
-      shouldSkipMountChildren = false
+      shouldOmitChildren = false
       render () {
         mockFn()
         return (<div>
@@ -101,6 +112,7 @@ describe('test shouldSkipMountChildren', () => {
 
     ReactMounter.render(<Bar />)
     expect(mockFn).toHaveBeenCalled()
+    expect(mockFn4WillMount).toHaveBeenCalled()
     expect(mockFn4Baz).toHaveBeenCalled()
     expect(mockFn4Bazz).not.toHaveBeenCalled()
   })
